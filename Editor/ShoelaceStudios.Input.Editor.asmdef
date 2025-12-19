@@ -1,0 +1,20 @@
+{
+    "name": "ShoelaceStudios.Input.Editor",
+    "rootNamespace": "ShoelaceStudios.Input.Editor",
+    "references": [
+        "GUID:9691226ddd2fb974c946bdf2e21f1fc6",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:b0d69ae21131f7b40bf7779239ce861f"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

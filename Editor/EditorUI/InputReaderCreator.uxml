@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/_Framework/_Scripts/Shoelace%20Input%20System/Editor/EditorUI/ShoelaceStyleSheet.uss?fileID=7433441132597879392&amp;guid=c7e266b970ece03418b5efd5308004e6&amp;type=3#ShoelaceStyleSheet" />
+    <uie:ObjectField label="Input Asset" type="UnityEngine.InputSystem.InputActionAsset, Unity.InputSystem" class="inputField" />
+    <ui:VisualElement style="flex-grow: 0.01; background-color: rgba(0, 0, 0, 0.6); height: 50px; min-height: 50px; flex-shrink: 0;">
+        <ui:Toggle label="Generate Control Scheme" style="height: 50px; font-size: 25px; -unity-text-align: middle-left; -unity-font-definition: url(&quot;project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Unity.ttf?fileID=12800000&amp;guid=f4eec857a4fdf2f43be0e9f3d1a984e7&amp;type=3#Unity&quot;); -unity-font-style: bold; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; align-self: stretch; align-items: center; align-content: auto; flex-grow: 0; flex-wrap: nowrap; flex-direction: row;" />
+    </ui:VisualElement>
+</ui:UXML>
