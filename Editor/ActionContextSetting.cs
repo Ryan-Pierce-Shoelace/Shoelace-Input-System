@@ -5,22 +5,6 @@ using UnityEngine.InputSystem;
 
 namespace ShoelaceStudios.Input.Editor
 {
-    public enum InputEventType
-    {
-        Started,
-        Waiting,
-        Disabled,
-        Canceled
-    }
-
-    public enum PassValueType
-    {
-        None,
-        Field,
-        Property
-    }
-    
-    
     [System.Serializable]
     public class ActionContextSetting
     {
@@ -57,44 +41,6 @@ namespace ShoelaceStudios.Input.Editor
             else
             {
                 Events.Add(new InputEventSetting(eventType, passValue));
-            }
-        }
-    }
-
-    
-    [System.Serializable]
-    public class InputEventSetting
-    {
-        public InputEventType EventType;
-        public bool PassValue;
-        public InputEventSetting(InputEventType eventType, bool passValue = false)
-        {
-            EventType = eventType;
-            PassValue = passValue;
-        }
-
-        public string EventName(string actionName) => $"On{EventType}{actionName}";
-    }
-    [System.Serializable]
-    public class InputReaderSettings
-    {
-        public string Name;
-        public bool Generate = true;
-        public List<ActionContextSetting> Actions = new();
-
-        public void PopulateActionOptions(InputActionMap actionMap)
-        {
-            Actions.Clear();
-
-            foreach (var action in actionMap.actions)
-            {
-                Actions.Add(new ActionContextSetting
-                {
-                    Name = action.name,
-                    ActionType = action.type,
-                    ControlType = action.expectedControlType,
-                    PassValue = PassValueType.Field
-                });
             }
         }
     }

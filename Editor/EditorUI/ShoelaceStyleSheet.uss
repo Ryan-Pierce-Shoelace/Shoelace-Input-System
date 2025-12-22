@@ -30,3 +30,97 @@
     transition-timing-function: ease;
     transition-delay: 0s;
 }
+
+.panel {
+    background-color: rgba(0, 0, 0, 0.53);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    max-height: none;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.button {
+    height: 50%;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 30px;
+    -unity-font-style: bold;
+    border-top-left-radius: 31px;
+    border-top-right-radius: 31px;
+    border-bottom-right-radius: 31px;
+    border-bottom-left-radius: 31px;
+    border-top-width: 7px;
+    border-right-width: 7px;
+    border-bottom-width: 7px;
+    border-left-width: 7px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    transition-duration: 0.15s;
+}
+
+.button:hover {
+    scale: 1.01 1.01 1.01;
+}
+
+.textfield {
+    font-size: 16px;
+    -unity-text-outline-width: 0;
+    -unity-font-definition: url("project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Unity.ttf?fileID=12800000&guid=f4eec857a4fdf2f43be0e9f3d1a984e7&type=3#Unity");
+    -unity-font-style: bold;
+    background-color: rgba(0, 0, 0, 0.61);
+    background-image: url("project://database/Assets/_Framework/Images/UI/Box.png?fileID=4727633781103762509&guid=af246cbf1ab2d4447905c4335e155b25&type=3#Box_0");
+    background-repeat: repeat round;
+    background-size: 100% 100%;
+    -unity-slice-scale: 0.5px;
+    -unity-slice-left: 100;
+    -unity-slice-top: 100;
+    -unity-slice-right: 100;
+    -unity-slice-bottom: 100;
+    background-position-x: center;
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-slice-type: tiled;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    transition-property: all;
+    transition-duration: 0s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}

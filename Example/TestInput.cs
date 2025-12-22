@@ -74,7 +74,7 @@ namespace ShoelaceStudios.Input.Example
     /// }
     /// </code>
     /// </example>
-    public partial class @UIInput: IInputActionCollection2, IDisposable
+    public partial class @TestInput: IInputActionCollection2, IDisposable
     {
         /// <summary>
         /// Provides access to the underlying asset instance.
@@ -84,7 +84,7 @@ namespace ShoelaceStudios.Input.Example
         /// <summary>
         /// Constructs a new instance.
         /// </summary>
-        public @UIInput()
+        public @TestInput()
         {
             asset = InputActionAsset.FromJson(@"{
     ""version"": 1,
@@ -719,10 +719,10 @@ namespace ShoelaceStudios.Input.Example
             m_PlayerGameplay_Movement = m_PlayerGameplay.FindAction("Movement", throwIfNotFound: true);
         }
 
-        ~@UIInput()
+        ~@TestInput()
         {
-            UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, UIInput.UI.Disable() has not been called.");
-            UnityEngine.Debug.Assert(!m_PlayerGameplay.enabled, "This will cause a leak and performance issues, UIInput.PlayerGameplay.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, TestInput.UI.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_PlayerGameplay.enabled, "This will cause a leak and performance issues, TestInput.PlayerGameplay.Disable() has not been called.");
         }
 
         /// <summary>
@@ -813,12 +813,12 @@ namespace ShoelaceStudios.Input.Example
         /// </summary>
         public struct UIActions
         {
-            private @UIInput m_Wrapper;
+            private @TestInput m_Wrapper;
 
             /// <summary>
             /// Construct a new instance of the input action map wrapper class.
             /// </summary>
-            public UIActions(@UIInput wrapper) { m_Wrapper = wrapper; }
+            public UIActions(@TestInput wrapper) { m_Wrapper = wrapper; }
             /// <summary>
             /// Provides access to the underlying input action "UI/Navigate".
             /// </summary>
@@ -1000,12 +1000,12 @@ namespace ShoelaceStudios.Input.Example
         /// </summary>
         public struct PlayerGameplayActions
         {
-            private @UIInput m_Wrapper;
+            private @TestInput m_Wrapper;
 
             /// <summary>
             /// Construct a new instance of the input action map wrapper class.
             /// </summary>
-            public PlayerGameplayActions(@UIInput wrapper) { m_Wrapper = wrapper; }
+            public PlayerGameplayActions(@TestInput wrapper) { m_Wrapper = wrapper; }
             /// <summary>
             /// Provides access to the underlying input action "PlayerGameplay/Punch".
             /// </summary>
