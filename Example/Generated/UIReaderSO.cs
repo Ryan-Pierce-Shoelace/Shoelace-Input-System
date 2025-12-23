@@ -50,6 +50,8 @@ namespace ShoelaceStudios.Input.Example
             public Vector2 ScrollWheel;
             public float MiddleClick;
             public float RightClick;
+            public Vector3 TrackedDevicePosition;
+            public Quaternion TrackedDeviceOrientation;
         #endregion
         #region Reader Actions
             // Methods
@@ -149,6 +151,7 @@ namespace ShoelaceStudios.Input.Example
                 if (context.performed)
                 {
                 Vector3 val = context.ReadValue<Vector3>();
+                TrackedDevicePosition = val;
                 }
             }
 
@@ -159,6 +162,7 @@ namespace ShoelaceStudios.Input.Example
                 if (context.performed)
                 {
                 Quaternion val = context.ReadValue<Quaternion>();
+                TrackedDeviceOrientation = val;
                 }
             }
         #endregion

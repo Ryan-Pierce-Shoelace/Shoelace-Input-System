@@ -124,3 +124,9 @@
     transition-timing-function: ease;
     transition-delay: 0s;
 }
+
+.label {
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Unity.ttf?fileID=12800000&guid=f4eec857a4fdf2f43be0e9f3d1a984e7&type=3#Unity");
+    -unity-font-style: bold;
+}

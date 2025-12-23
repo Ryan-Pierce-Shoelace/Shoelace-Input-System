@@ -1,21 +1,21 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/_Framework/_Scripts/Shoelace%20Input%20System/Editor/EditorUI/ShoelaceStyleSheet.uss?fileID=7433441132597879392&amp;guid=c7e266b970ece03418b5efd5308004e6&amp;type=3#ShoelaceStyleSheet" />
-    <ui:VisualElement style="flex-direction: row;">
-        <ui:Label text="Action Name :" class="custom-label" />
-        <ui:Label text=" &quot;action&quot;" class="custom-label" />
+    <ui:VisualElement name="Header" class="panel" style="flex-direction: row;">
+        <ui:Label text="Action Name :" class="custom-label label" />
+        <ui:Label text=" &quot;action&quot;" name="action_name" class="custom-label label" />
     </ui:VisualElement>
-    <ui:Foldout text="Details" value="true">
+    <ui:Foldout text="Details" value="true" class="label panel">
         <ui:GroupBox>
-            <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;">
+            <ui:VisualElement name="ActionInfo" style="flex-grow: 1; flex-direction: row; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;">
                 <ui:Label text="Value Type" class="custom-label" />
-                <ui:Label text=" &quot;button&quot;" class="custom-label" />
+                <ui:Label text=" &quot;button&quot;" name="action_type" class="custom-label" />
             </ui:VisualElement>
-            <ui:Toggle label="Update Continuous" />
-            <ui:Toggle label="Use Events" />
-            <ui:GroupBox>
-                <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-content: auto; align-items: auto;">
-                    <ui:Toggle label="Start Event" name="Toggle" style="width: 171px;" />
-                    <ui:Toggle label="-&gt; Pass Value" style="flex-shrink: 0; font-size: 12px;" />
+            <ui:Toggle label="Update Continuous" name="continuous_toggle" value="false" style="justify-content: flex-start; align-content: auto; flex-direction: row; flex-wrap: nowrap;" />
+            <ui:Toggle label="Use Events" name="use_events_toggle" />
+            <ui:GroupBox class="panel">
+                <ui:VisualElement name="start" style="flex-grow: 1; flex-direction: row; align-content: auto; align-items: auto;">
+                    <ui:Toggle label="Start Event" name="start_event_toggle" style="width: 171px;" />
+                    <ui:Toggle label="-&gt; Pass Value" name="start_does_event_pass" style="flex-shrink: 0; font-size: 12px;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-content: auto; align-items: auto;">
                     <ui:Toggle label="Stop Event" name="Toggle" style="width: 171px;" />

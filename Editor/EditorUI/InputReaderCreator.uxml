@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/_Framework/_Scripts/Shoelace%20Input%20System/Editor/EditorUI/ShoelaceStyleSheet.uss?fileID=7433441132597879392&amp;guid=c7e266b970ece03418b5efd5308004e6&amp;type=3#ShoelaceStyleSheet" />
     <ui:VisualElement class="root">
-        <UnityEditor.UIElements.ObjectField label="Object Field" name="InputAsset" />
+        <UnityEditor.UIElements.ObjectField label="Target Input" name="InputAsset" type="UnityEngine.InputSystem.InputActionAsset, Unity.InputSystem" />
         <ui:TextField name="Namespace" label="Namespace" />
         <ui:TextField name="FilePath" label="File Path (relative to Assets)" />
         <ui:ScrollView name="Readers" />

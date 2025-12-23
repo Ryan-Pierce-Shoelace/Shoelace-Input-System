@@ -13,7 +13,8 @@ namespace ShoelaceStudios.Input.Editor
 {
     public class InputReaderCreatorEditor : EditorWindow
     {
-        [SerializeField] private VisualTreeAsset tree;
+        [SerializeField] private VisualTreeAsset rootTree;
+        [SerializeField] private VisualTreeAsset inputActionAsset;
 
         [SerializeField] private InputActionAsset targetInput;
         [SerializeField] private string projectNamespace;
@@ -31,7 +32,7 @@ namespace ShoelaceStudios.Input.Editor
 
         public void CreateGUI()
         {
-            tree.CloneTree(rootVisualElement);
+            rootTree.CloneTree(rootVisualElement);
 
             BindHeader();
             BindReaderList();
@@ -131,7 +132,7 @@ namespace ShoelaceStudios.Input.Editor
             };
 
             foldout.style.marginLeft = 12;
-
+            
             // Pass Value selector
             var passValueField = new EnumField("Pass Value", action.PassValue);
             passValueField.RegisterValueChangedCallback(e =>
@@ -335,27 +336,31 @@ namespace ShoelaceStudios.Input.Editor
                                             break;
                                     }
 
-
-                                    m.Switch("context.phase", switchBuilder =>
+                                    if (action.Events.Count > 1)
                                     {
-                                        foreach (InputEventSetting actionEvent in action.Events)
+
+
+                                        m.Switch("context.phase", switchBuilder =>
                                         {
-                                            switchBuilder.Case("InputActionPhase." + actionEvent.EventType,
-                                                body =>
-                                                {
-                                                    if (actionEvent.PassValue)
+                                            foreach (InputEventSetting actionEvent in action.Events)
+                                            {
+                                                switchBuilder.Case("InputActionPhase." + actionEvent.EventType,
+                                                    body =>
                                                     {
-                                                        body.Line(
-                                                            $"{actionEvent.EventName(action.Name)}?.Invoke(val);");
-                                                    }
-                                                    else
-                                                    {
-                                                        body.Line(
-                                                            $"{actionEvent.EventName(action.Name)}?.Invoke();");
-                                                    }
-                                                });
-                                        }
-                                    });
+                                                        if (actionEvent.PassValue)
+                                                        {
+                                                            body.Line(
+                                                                $"{actionEvent.EventName(action.Name)}?.Invoke(val);");
+                                                        }
+                                                        else
+                                                        {
+                                                            body.Line(
+                                                                $"{actionEvent.EventName(action.Name)}?.Invoke();");
+                                                        }
+                                                    });
+                                            }
+                                        });
+                                    }
                                 });
                             });
                         }
