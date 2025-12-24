@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Shoelace.InputSystem
 {
-	public abstract partial class BaseInputReader : ScriptableObject
+	public abstract class BaseInputReaderCore : ScriptableObject
 	{
 		[SerializeField] protected InputActionAsset inputActionAsset;
 		[SerializeField] protected string actionMapName;
@@ -45,7 +45,7 @@ namespace Shoelace.InputSystem
 			}
 		}
 		
-		public ControlScheme CurrentScheme { get; private set; }
+		/*public ControlScheme CurrentScheme { get; private set; }
 		protected void DetectControlScheme(InputAction.CallbackContext context)
 		{
 			if (context.control.device is Gamepad)
@@ -67,6 +67,6 @@ namespace Shoelace.InputSystem
 		{
 			KeyboardMouse,
 			Gamepad
-		}
+		}*/
 	}
 }

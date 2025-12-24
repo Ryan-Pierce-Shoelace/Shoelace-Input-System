@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -7,6 +9,7 @@ using Shoelace.InputSystem;
 using UnityEditor;
 using UnityEditor.UIElements;
 using ShoelaceStudios.Utilities.Editor.ScriptGeneration;
+using UnityEngine.InputSystem.Editor;
 using Utilities.Editor;
 
 namespace ShoelaceStudios.Input.Editor
@@ -22,6 +25,8 @@ namespace ShoelaceStudios.Input.Editor
         [SerializeField] private InputReaderSettings[] readerOptions;
 
         private VisualElement readersContainer;
+
+        #region Editor Window
 
         [MenuItem("Tools/Input Reader Creator")]
         public static void ShowWindow()
@@ -132,7 +137,7 @@ namespace ShoelaceStudios.Input.Editor
             };
 
             foldout.style.marginLeft = 12;
-            
+
             // Pass Value selector
             var passValueField = new EnumField("Pass Value", action.PassValue);
             passValueField.RegisterValueChangedCallback(e =>
@@ -208,6 +213,7 @@ namespace ShoelaceStudios.Input.Editor
             return row;
         }
 
+        #endregion
 
         private void GenerateInputReaders()
         {
@@ -219,31 +225,144 @@ namespace ShoelaceStudios.Input.Editor
 
             ProjectSetup.Folders.Create(filePathString, "Readers", "Generated");
 
-            /*
-            var path = AssetDatabase.GetAssetPath(targetInput);
 
-            var importer = AssetImporter.GetAtPath(path) as  InputActionAssetImporter;
+            var content = InputActionCodeGenerator.GenerateWrapperCode(targetInput,
+                new InputActionCodeGenerator.Options
+                {
+                    className = targetInput.name,
+                    namespaceName = projectNamespace
+                });
 
-            var so = new SerializedObject(targetInput);
+            string directoryPath = Path.Combine(Application.dataPath, filePathString);
+            Directory.CreateDirectory(directoryPath);
+            string savePath = Path.Combine(directoryPath, $"{targetInput.name}.cs");
+            File.WriteAllText(savePath, content);
+            AssetDatabase.Refresh();
 
-            so.FindProperty("m_GenerateWrapperCode").boolValue = true;
-            so.FindProperty("m_WrapperClassName").stringValue = "MyInputActions";
-            so.FindProperty("m_WrapperNamespace").stringValue = "Game.Input";
-            so.FindProperty("m_WrapperCodePath").stringValue = "Assets/Scripts/Input";
-
-            so.ApplyModifiedProperties();
-            */
-
-            EditorUtility.SetDirty(targetInput);
-            AssetDatabase.SaveAssets();
             foreach (InputReaderSettings reader in readerOptions)
             {
                 GenerateReader(reader);
             }
 
+            GenerateInputManager();
+            GenerateBaseInputReaderExtension();
+
             AssetDatabase.SaveAssets();
 
             AssetDatabase.Refresh();
+        }
+
+        private void GenerateBaseInputReaderExtension()
+        {
+            if (targetInput.controlSchemes.Count == 0)
+                return;
+
+            ScriptBuilder builder = new ScriptBuilder();
+
+            ProceduralScriptSpec baseInputExtension =
+                builder.NameSpace("Shoelace.InputSystem").Class("BaseInputReader", "BaseInputReaderCore")
+                    .Using("UnityEngine").Using("UnityEngine.InputSystem").SetAbstract(true)
+                    .Region("Control Schemes", regionBuilder =>
+                    {
+                        List<string> controlSchemes = new List<string>();
+
+                        foreach (InputControlScheme scheme in targetInput.controlSchemes)
+                        {
+                            controlSchemes.Add(scheme.name);
+                        }
+
+                        regionBuilder.Enum("ControlScheme", controlSchemes); //TODO FINISH partial extension
+                        regionBuilder.Property("ControlScheme", "CurrentScheme");
+                        regionBuilder.Method("void", "DetectControlScheme", Access.Protected, methodBuilder =>
+                        {
+                            methodBuilder.Param("InputAction.CallbackContext", "context");
+
+                            foreach (InputControlScheme scheme in targetInput.controlSchemes)
+                            {
+                                List<string> deviceList = new List<string>();
+
+                                foreach (var deviceRequirement in scheme.deviceRequirements)
+                                {
+                                    deviceList.Add(deviceRequirement.controlPath.Replace('<', ' ').Replace('>', ' ').Trim());
+                                }
+                                
+                                string devices = string.Join(" or ", deviceList);
+                                methodBuilder.If("context.control.device is " + devices,
+                                    ifBody =>
+                                    {
+                                        ifBody.If("CurrentScheme != ControlScheme." + scheme.name,
+                                            ifBody2 =>
+                                            {
+                                                ifBody2.Line("CurrentScheme = ControlScheme." + scheme.name + ";");
+                                            });
+                                    });
+                            }
+                        });
+                    })
+                    .Build();
+
+            builder.WriteScript(filePathString, baseInputExtension, "Generated");
+        }
+
+        private void GenerateInputManager()
+        {
+            ScriptBuilder builder = new ScriptBuilder();
+            ProceduralScriptSpec managerScript = builder.NameSpace(projectNamespace)
+                .Class("InputManager", "MonoBehaviour")
+                .Using("UnityEngine").Using("Shoelace.InputSystem")
+                .Region("Input Readers", regionBuilder =>
+                {
+                    foreach (InputReaderSettings reader in readerOptions)
+                    {
+                        regionBuilder.Field(reader.Name + "ReaderSO",
+                            reader.Name + "Reader", Access.Private, "SerializeField");
+                        regionBuilder.Accessor(reader.Name + "ReaderSO", reader.Name.ToUpper(), reader.Name + "Reader");
+                    }
+
+                    regionBuilder.Field("BaseInputReader", "currentInputReader");
+                })
+                .Region("Initialization", regionBuilder =>
+                {
+                    regionBuilder.Method("void", "Initialize", Access.Public, methodBuilder =>
+                    {
+                        foreach (InputReaderSettings reader in readerOptions)
+                        {
+                            methodBuilder.Line($"{reader.Name}" + "Reader.Initialize();");
+                        }
+                    });
+
+                    regionBuilder.Method("void", "OnDestroy", Access.Private,
+                        methodBuilder => { methodBuilder.Line("currentInputReader?.SetActive(false);"); });
+                })
+                .Region("Input Switch", regionBuilder =>
+                {
+                    List<string> actionMapTypes = new List<string>();
+                    foreach (InputReaderSettings reader in readerOptions)
+                    {
+                        actionMapTypes.Add(reader.Name.ToUpper());
+                    }
+
+                    regionBuilder.Enum("ActionMapType", actionMapTypes);
+
+
+                    regionBuilder.Method("void", "SwitchInput", Access.Public, methodBuilder =>
+                    {
+                        methodBuilder.Param("ActionMapType", "setActionMap");
+                        methodBuilder.Switch("setActionMap", switchBuilder =>
+                        {
+                            foreach (InputReaderSettings reader in readerOptions)
+                            {
+                                switchBuilder.Case($"ActionMapType.{reader.Name.ToUpper()}", bodyBuilder =>
+                                {
+                                    bodyBuilder.Line("currentInputReader?.SetActive(false);");
+                                    bodyBuilder.Line($"currentInputReader = {reader.Name}Reader;");
+                                    bodyBuilder.Line("currentInputReader?.SetActive(true);");
+                                }, "Switch Input to Desired Action Map");
+                            }
+                        });
+                    });
+                }).Build();
+            builder.WriteScript(filePathString, managerScript, "Generated");
         }
 
         private void GenerateReader(InputReaderSettings reader)
@@ -251,7 +370,7 @@ namespace ShoelaceStudios.Input.Editor
             ScriptBuilder builder = new ScriptBuilder();
 
             ProceduralScriptSpec readerScript =
-                builder.NameSpace(projectNamespace).Class(reader.Name + "ReaderSO", nameof(BaseInputReader))
+                builder.NameSpace(projectNamespace).Class(reader.Name + "ReaderSO", "BaseInputReader")
                     .Interface($"{targetInput.name}.I{reader.Name}Actions")
                     .Using("Shoelace.InputSystem")
                     .Using("UnityEngine")
@@ -338,8 +457,6 @@ namespace ShoelaceStudios.Input.Editor
 
                                     if (action.Events.Count > 1)
                                     {
-
-
                                         m.Switch("context.phase", switchBuilder =>
                                         {
                                             foreach (InputEventSetting actionEvent in action.Events)

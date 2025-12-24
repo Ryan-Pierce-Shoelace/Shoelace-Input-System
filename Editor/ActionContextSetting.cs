@@ -8,7 +8,13 @@ namespace ShoelaceStudios.Input.Editor
     [System.Serializable]
     public class ActionContextSetting
     {
-        public string Name;
+        private string actionName;
+
+        public string Name
+        {
+            get => actionName;
+            set => actionName = value.Replace(" ", string.Empty);
+        }
         public InputActionType ActionType;
         public string ControlType;
 

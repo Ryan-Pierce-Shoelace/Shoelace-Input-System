@@ -627,6 +627,15 @@ namespace ShoelaceStudios.Input.Example
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NEW ACTION"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""848f66d0-331e-4a86-a805-74394d21c919"",
+                    ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -695,11 +704,61 @@ namespace ShoelaceStudios.Input.Example
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""524efd16-1ec3-497e-9268-db54d4cc0d1d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NEW ACTION"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""MouseAndKeyboard"",
+            ""bindingGroup"": ""MouseAndKeyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Joystick"",
+            ""bindingGroup"": ""Joystick"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Joystick>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -717,6 +776,7 @@ namespace ShoelaceStudios.Input.Example
             m_PlayerGameplay = asset.FindActionMap("PlayerGameplay", throwIfNotFound: true);
             m_PlayerGameplay_Punch = m_PlayerGameplay.FindAction("Punch", throwIfNotFound: true);
             m_PlayerGameplay_Movement = m_PlayerGameplay.FindAction("Movement", throwIfNotFound: true);
+            m_PlayerGameplay_NEWACTION = m_PlayerGameplay.FindAction("NEW ACTION", throwIfNotFound: true);
         }
 
         ~@TestInput()
@@ -995,6 +1055,7 @@ namespace ShoelaceStudios.Input.Example
         private List<IPlayerGameplayActions> m_PlayerGameplayActionsCallbackInterfaces = new List<IPlayerGameplayActions>();
         private readonly InputAction m_PlayerGameplay_Punch;
         private readonly InputAction m_PlayerGameplay_Movement;
+        private readonly InputAction m_PlayerGameplay_NEWACTION;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerGameplay".
         /// </summary>
@@ -1014,6 +1075,10 @@ namespace ShoelaceStudios.Input.Example
             /// Provides access to the underlying input action "PlayerGameplay/Movement".
             /// </summary>
             public InputAction @Movement => m_Wrapper.m_PlayerGameplay_Movement;
+            /// <summary>
+            /// Provides access to the underlying input action "PlayerGameplay/NEWACTION".
+            /// </summary>
+            public InputAction @NEWACTION => m_Wrapper.m_PlayerGameplay_NEWACTION;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1046,6 +1111,9 @@ namespace ShoelaceStudios.Input.Example
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @NEWACTION.started += instance.OnNEWACTION;
+                @NEWACTION.performed += instance.OnNEWACTION;
+                @NEWACTION.canceled += instance.OnNEWACTION;
             }
 
             /// <summary>
@@ -1063,6 +1131,9 @@ namespace ShoelaceStudios.Input.Example
                 @Movement.started -= instance.OnMovement;
                 @Movement.performed -= instance.OnMovement;
                 @Movement.canceled -= instance.OnMovement;
+                @NEWACTION.started -= instance.OnNEWACTION;
+                @NEWACTION.performed -= instance.OnNEWACTION;
+                @NEWACTION.canceled -= instance.OnNEWACTION;
             }
 
             /// <summary>
@@ -1096,6 +1167,45 @@ namespace ShoelaceStudios.Input.Example
         /// Provides a new <see cref="PlayerGameplayActions" /> instance referencing this action map.
         /// </summary>
         public PlayerGameplayActions @PlayerGameplay => new PlayerGameplayActions(this);
+        private int m_GamepadSchemeIndex = -1;
+        /// <summary>
+        /// Provides access to the input control scheme.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+        public InputControlScheme GamepadScheme
+        {
+            get
+            {
+                if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+                return asset.controlSchemes[m_GamepadSchemeIndex];
+            }
+        }
+        private int m_MouseAndKeyboardSchemeIndex = -1;
+        /// <summary>
+        /// Provides access to the input control scheme.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+        public InputControlScheme MouseAndKeyboardScheme
+        {
+            get
+            {
+                if (m_MouseAndKeyboardSchemeIndex == -1) m_MouseAndKeyboardSchemeIndex = asset.FindControlSchemeIndex("MouseAndKeyboard");
+                return asset.controlSchemes[m_MouseAndKeyboardSchemeIndex];
+            }
+        }
+        private int m_JoystickSchemeIndex = -1;
+        /// <summary>
+        /// Provides access to the input control scheme.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+        public InputControlScheme JoystickScheme
+        {
+            get
+            {
+                if (m_JoystickSchemeIndex == -1) m_JoystickSchemeIndex = asset.FindControlSchemeIndex("Joystick");
+                return asset.controlSchemes[m_JoystickSchemeIndex];
+            }
+        }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
         /// </summary>
@@ -1195,6 +1305,13 @@ namespace ShoelaceStudios.Input.Example
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMovement(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "NEW ACTION" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnNEWACTION(InputAction.CallbackContext context);
         }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2679ba4c86441bf40a135286cca3055b, type: 3}
   m_Name: UIReaderSO
   m_EditorClassIdentifier: Assembly-CSharp::ShoelaceStudios.Input.Example.UIReaderSO
-  inputActionAsset: {fileID: 0}
+  inputActionAsset: {fileID: -944628639613478452, guid: c321bf5a29f4b7941b93db12a67a0d47, type: 3}
   actionMapName: 
   Navigate: {x: 0, y: 0}
   Submit: 0

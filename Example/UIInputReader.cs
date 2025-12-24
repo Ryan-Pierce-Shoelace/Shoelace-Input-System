@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace Shoelace.InputSystem
 {
 	[CreateAssetMenu(fileName = "UI InputReader", menuName = "Input/UI Reader")]
-	public class UIInputReader : BaseInputReader//, WizardInput.IUIActions
+	public class UIInputReaderCore : BaseInputReaderCore//, WizardInput.IUIActions
 	{
 		public event UnityAction SubmitEvent = delegate { };
 		public event UnityAction CancelEvent = delegate { };

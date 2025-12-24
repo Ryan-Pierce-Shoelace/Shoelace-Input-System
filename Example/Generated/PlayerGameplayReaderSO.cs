@@ -9,8 +9,6 @@ namespace ShoelaceStudios.Input.Example
         #region Initialization
             private TestInput input;
             // Methods
-
-            /// 
             public override void Initialize ()
             {
                 // 
@@ -20,20 +18,14 @@ namespace ShoelaceStudios.Input.Example
                 input.PlayerGameplay.SetCallbacks(this);
                 }
             }
-
-            /// 
             public override void Enable ()
             {
                 input?.PlayerGameplay.Enable();
             }
-
-            /// 
             public override void Disable ()
             {
                 input?.PlayerGameplay.Disable();
             }
-
-            /// 
             public override void Cleanup ()
             {
                 input?.PlayerGameplay.Disable();
@@ -44,11 +36,10 @@ namespace ShoelaceStudios.Input.Example
             // Fields
             public bool Punch;
             public Vector2 Movement;
+            public Quaternion NEWACTION;
         #endregion
         #region Reader Actions
             // Methods
-
-            /// 
             public void OnPunch (InputAction.CallbackContext context)
             {
                 // 
@@ -58,8 +49,6 @@ namespace ShoelaceStudios.Input.Example
                 Punch = val;
                 }
             }
-
-            /// 
             public void OnMovement (InputAction.CallbackContext context)
             {
                 // 
@@ -69,6 +58,15 @@ namespace ShoelaceStudios.Input.Example
                 Movement = val;
                 }
             }
+            public void OnNEWACTION (InputAction.CallbackContext context)
+            {
+                // 
+                if (context.performed)
+                {
+                Quaternion val = context.ReadValue<Quaternion>();
+                NEWACTION = val;
+                }
+            }
         #endregion
-    }
+        }
 }

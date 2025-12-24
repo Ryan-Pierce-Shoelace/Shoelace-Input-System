@@ -9,8 +9,6 @@ namespace ShoelaceStudios.Input.Example
         #region Initialization
             private TestInput input;
             // Methods
-
-            /// 
             public override void Initialize ()
             {
                 // 
@@ -20,20 +18,14 @@ namespace ShoelaceStudios.Input.Example
                 input.UI.SetCallbacks(this);
                 }
             }
-
-            /// 
             public override void Enable ()
             {
                 input?.UI.Enable();
             }
-
-            /// 
             public override void Disable ()
             {
                 input?.UI.Disable();
             }
-
-            /// 
             public override void Cleanup ()
             {
                 input?.UI.Disable();
@@ -55,8 +47,6 @@ namespace ShoelaceStudios.Input.Example
         #endregion
         #region Reader Actions
             // Methods
-
-            /// 
             public void OnNavigate (InputAction.CallbackContext context)
             {
                 // 
@@ -66,8 +56,6 @@ namespace ShoelaceStudios.Input.Example
                 Navigate = val;
                 }
             }
-
-            /// 
             public void OnSubmit (InputAction.CallbackContext context)
             {
                 // 
@@ -77,8 +65,6 @@ namespace ShoelaceStudios.Input.Example
                 Submit = val;
                 }
             }
-
-            /// 
             public void OnCancel (InputAction.CallbackContext context)
             {
                 // 
@@ -88,8 +74,6 @@ namespace ShoelaceStudios.Input.Example
                 Cancel = val;
                 }
             }
-
-            /// 
             public void OnPoint (InputAction.CallbackContext context)
             {
                 // 
@@ -99,8 +83,6 @@ namespace ShoelaceStudios.Input.Example
                 Point = val;
                 }
             }
-
-            /// 
             public void OnClick (InputAction.CallbackContext context)
             {
                 // 
@@ -110,8 +92,6 @@ namespace ShoelaceStudios.Input.Example
                 Click = val;
                 }
             }
-
-            /// 
             public void OnScrollWheel (InputAction.CallbackContext context)
             {
                 // 
@@ -121,8 +101,6 @@ namespace ShoelaceStudios.Input.Example
                 ScrollWheel = val;
                 }
             }
-
-            /// 
             public void OnMiddleClick (InputAction.CallbackContext context)
             {
                 // 
@@ -132,8 +110,6 @@ namespace ShoelaceStudios.Input.Example
                 MiddleClick = val;
                 }
             }
-
-            /// 
             public void OnRightClick (InputAction.CallbackContext context)
             {
                 // 
@@ -143,8 +119,6 @@ namespace ShoelaceStudios.Input.Example
                 RightClick = val;
                 }
             }
-
-            /// 
             public void OnTrackedDevicePosition (InputAction.CallbackContext context)
             {
                 // 
@@ -154,8 +128,6 @@ namespace ShoelaceStudios.Input.Example
                 TrackedDevicePosition = val;
                 }
             }
-
-            /// 
             public void OnTrackedDeviceOrientation (InputAction.CallbackContext context)
             {
                 // 
@@ -166,5 +138,5 @@ namespace ShoelaceStudios.Input.Example
                 }
             }
         #endregion
-    }
+        }
 }
