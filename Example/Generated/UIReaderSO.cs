@@ -1,7 +1,7 @@
 using Shoelace.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
-namespace ShoelaceStudios.Input.Example
+namespace Shoelace.Input.Example
 {
     [CreateAssetMenu(fileName ="UIReaderSO", menuName = "Shoelace Input/UI")]
     public class UIReaderSO : BaseInputReader, TestInput.IUIActions

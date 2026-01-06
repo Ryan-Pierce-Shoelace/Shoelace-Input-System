@@ -1,6 +1,6 @@
 using UnityEngine;
 using Shoelace.InputSystem;
-namespace ShoelaceStudios.Input.Example
+namespace Shoelace.Input.Example
 {
     public class InputManager : MonoBehaviour
     {

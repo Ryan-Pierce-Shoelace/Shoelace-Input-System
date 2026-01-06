@@ -262,7 +262,11 @@ namespace ShoelaceStudios.Input.Editor
                     .Region("Control Schemes", regionBuilder =>
                     {
                         if (targetInput.controlSchemes.Count == 0)
+                        {
+                            Debug.LogError("No Control Schemes Found");
                             return;
+                        }
+                            
                         
                         List<string> controlSchemes = new List<string>();
 

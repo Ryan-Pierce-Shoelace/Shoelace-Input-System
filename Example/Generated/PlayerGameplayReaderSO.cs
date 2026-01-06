@@ -1,7 +1,7 @@
 using Shoelace.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
-namespace ShoelaceStudios.Input.Example
+namespace Shoelace.Input.Example
 {
     [CreateAssetMenu(fileName ="PlayerGameplayReaderSO", menuName = "Shoelace Input/PlayerGameplay")]
     public class PlayerGameplayReaderSO : BaseInputReader, TestInput.IPlayerGameplayActions
