@@ -254,9 +254,6 @@ namespace ShoelaceStudios.Input.Editor
 
         private void GenerateBaseInputReaderExtension()
         {
-            if (targetInput.controlSchemes.Count == 0)
-                return;
-
             ScriptBuilder builder = new ScriptBuilder();
 
             ProceduralScriptSpec baseInputExtension =
@@ -264,6 +261,9 @@ namespace ShoelaceStudios.Input.Editor
                     .Using("UnityEngine").Using("UnityEngine.InputSystem").SetAbstract(true)
                     .Region("Control Schemes", regionBuilder =>
                     {
+                        if (targetInput.controlSchemes.Count == 0)
+                            return;
+                        
                         List<string> controlSchemes = new List<string>();
 
                         foreach (InputControlScheme scheme in targetInput.controlSchemes)
